@@ -45,6 +45,7 @@ default_args = {
 }
 
 dag = DAG('data_workflow', default_args=default_args, schedule='@daily')
+# DAG represents a workflow i.e. a collection of tasks
 
 # Tasks for each step in the workflow
 extract_task = PythonOperator(
@@ -53,6 +54,7 @@ extract_task = PythonOperator(
     dag=dag
 )
 
+#Tasks are represented as operators
 transform_task = PythonOperator(
     task_id='transform_data',
     python_callable=transform_data,
@@ -67,6 +69,7 @@ load_task = PythonOperator(
 
 # Define task dependencies
 extract_task >> transform_task >> load_task
+# Load() depends on transform() and transform() depends on extract()
 
 # Execute the tasks manually
 extract_data()  # Execute data extraction
